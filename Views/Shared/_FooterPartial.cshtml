@@ -1,0 +1,11 @@
+﻿@inject IConfiguration config
+@{
+    AppConfig? appConfig = config.GetSection("Project").Get<AppConfig>();
+}
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2026 - sport - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
