@@ -1,19 +1,29 @@
 using Microsoft.EntityFrameworkCore;
-using sport.Data;
+using sport.Domain;
+using sport.Infrastructure; 
 
 namespace sport
 {
     public class Program
     {
-        public static void Main(string[] args)
+
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            builder.Services.AddControllersWithViews();
 
 
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+            builder.Services.AddControllersWithViews();
+
+
+            builder.Services.Configure<AppConfig>(builder.Configuration.GetSection("Project"));
+
+
+            builder.Services.AddSingleton(sp =>
+                builder.Configuration.GetSection("Project").Get<AppConfig>() ?? new AppConfig());
 
             var app = builder.Build();
 
@@ -34,7 +44,7 @@ namespace sport
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }
