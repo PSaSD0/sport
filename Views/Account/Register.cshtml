@@ -1,0 +1,52 @@
+﻿@model sport.Models.RegisterViewModel
+
+@{
+    ViewBag.Title = "Регистрация";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Регистрация</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Register" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <!-- НОВОЕ ПОЛЕ: ЛОГИН -->
+                        <div class="form-group mb-3">
+                            <label asp-for="UserName">Логин</label>
+                            <input asp-for="UserName" class="form-control" placeholder="Придумайте логин" />
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Email">Email</label>
+                            <input asp-for="Email" class="form-control" placeholder="Введите Email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Password">Пароль</label>
+                            <input asp-for="Password" class="form-control" placeholder="Введите пароль" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="ConfirmPassword">Подтвердите пароль</label>
+                            <input asp-for="ConfirmPassword" class="form-control" placeholder="Повторите пароль" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">Зарегистрироваться</button>
+                    </form>
+                    <div class="mt-3 text-center">
+                        <a asp-action="Login">Уже есть аккаунт? Войти</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

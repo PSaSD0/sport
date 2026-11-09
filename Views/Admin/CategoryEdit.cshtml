@@ -1,0 +1,21 @@
+﻿@model sport.Domain.Entities.Category
+
+@{
+    ViewBag.Title = Model.Id == 0 ? "Добавить категорию" : "Редактировать категорию";
+}
+
+<div class="container mt-4">
+    <h2>@ViewBag.Title</h2>
+    <form asp-action="CategoryEdit" method="post">
+        <input type="hidden" asp-for="Id" />
+        
+        <div class="form-group mb-3">
+            <label asp-for="Title">Название категории</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a asp-action="Categories" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>

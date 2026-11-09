@@ -1,9 +1,82 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using sport.Domain.Entities
+@using sport.Models
+
+@{
+    ViewBag.Title = "Главная";
+    var reviews = ViewBag.Reviews as List<Review>;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <img src="\img\8A9794AD-C7B4-4389-9110-8EA7EEB69B7D.png" />
+
+
+<hr class="my-5" />
+
+<!-- БЛОК ОТЗЫВОВ -->
+<div class="container my-5">
+    <h2 class="text-center mb-4">Отзывы наших клиентов</h2>
+
+    <div class="row">
+        <!-- Список отзывов (слева) -->
+        <div class="col-md-7">
+            @if (reviews != null && reviews.Any())
+            {
+                @foreach (var review in reviews)
+                {
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">@review.User?.UserName</h5>
+                                <span class="text-warning">
+                                    @for (int i = 0; i < review.Rating; i++)
+                                    {
+                                        <i class="bi bi-star-fill">★</i>
+                                    }
+                                </span>
+                            </div>
+                            <h6 class="card-subtitle mb-2 text-muted">@review.DateCreated.ToString("dd.MM.yyyy")</h6>
+                            <p class="card-text">@review.Text</p>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">Пока нет отзывов. Будьте первым!</p>
+            }
+        </div>
+
+        <!-- Форма добавления (справа) -->
+        <div class="col-md-5">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Оставить отзыв</h5>
+                </div>
+                <div class="card-body">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <form asp-controller="Home" asp-action="AddReview" method="post">
+                            <div class="form-group mb-3">
+                                <label class="form-label">Оценка</label>
+                                <select name="Rating" class="form-select">
+                                    <option value="5">5 (Отлично)</option>
+                                    <option value="4">4 (Хорошо)</option>
+                                    <option value="3">3 (Нормально)</option>
+                                    <option value="2">2 (Плохо)</option>
+                                    <option value="1">1 (Ужасно)</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label">Ваш отзыв</label>
+                                <textarea name="Text" class="form-control" rows="4" placeholder="Напишите, что вы думаете..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Отправить</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <p class="text-center">Чтобы оставить отзыв, пожалуйста, <a asp-controller="Account" asp-action="Login">войдите в систему</a>.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
